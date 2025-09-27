@@ -7,6 +7,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.sql.*;
 
 /**
  * Handles individual client connections, detects attacks, and logs events.
@@ -15,18 +16,23 @@ public class ConnectionHandler implements Runnable {
 
     private final Socket clientSocket;
     private final Configuration config;
-    private static final Map<String, String> userDatabase = new HashMap<>();
-
-    // Static block to initialize the fake user database
-    static {
-        userDatabase.put("admin", "21232f297a57a5a743894a0e4a801fc3"); // MD5 for "admin"
-        userDatabase.put("j.doe", "password123");
-        userDatabase.put("m.smith", "qwerty");
-    }
 
     public ConnectionHandler(Socket socket, Configuration config) {
         this.clientSocket = socket;
         this.config = config;
+    }
+
+    private boolean isValidLogin(String username, String password) {
+        String dbUrl = "jdbc:sqlite:DBstuff.db";
+        String sql = "SELECT * FROM users WHERE username='" + username + "' AND password='" + password + "'"; // Main vulnerability point
+        try (Connection conn = DriverManager.getConnection(dbUrl);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            return rs.next(); 
+        } catch (SQLException e) {
+            JsonLogger.log("DB_ERROR", "Database error during login.", "error", e.getMessage());
+            return false;
+        }
     }
 
     @Override
@@ -84,19 +90,16 @@ public class ConnectionHandler implements Runnable {
                 "username", username, 
                 "password", password);
             HtmlResponder.serveFakeLogsPage(out, config.getServerBanner());
-        } else {
-            // If no SQLi, check for valid credentials
-            boolean isValidLogin = userDatabase.containsKey(username) && userDatabase.get(username).equals(password);
-
-            if (isValidLogin) {
-                // Log the successful non-admin login and show the "secret" page
+            System.out.println("SQL Injection attempt detected from " + clientIp);
+        } 
+        else {
+            if (isValidLogin(username, password)) {
                 JsonLogger.log("VALID_LOGIN", "Successful login with valid credentials.", 
                     "clientIp", clientIp, 
                     "userAgent", userAgent, 
                     "username", username);
-                HtmlResponder.serveSuccessPage(out, config.getServerBanner(), username);
+                HtmlResponder.serveSuccessPage(out, config.getServerBanner(), username, "DBstuff.db");
             } else {
-                // For all other attempts, log as a failed login and show an error
                 JsonLogger.log("LOGIN_ATTEMPT", "Login attempt failed.", 
                     "clientIp", clientIp, 
                     "userAgent", userAgent, 
@@ -134,11 +137,8 @@ public class ConnectionHandler implements Runnable {
         return params;
     }
     
-    /**
-     * Checks an input string for common SQL injection patterns.
-     * @param input The string to check.
-     * @return true if a potential SQL injection pattern is found, false otherwise.
-     */
+    //Checks an input string for common SQL injection patterns.
+
     private boolean isPotentialSqlInjection(String input) {
         if (input == null || input.isEmpty()) {
             return false;
@@ -161,5 +161,6 @@ public class ConnectionHandler implements Runnable {
         }
         return false;
     }
+
 }
 

@@ -1,0 +1,10 @@
+New instructions for running code:
+
+1. javac -cp ".;sqlite-jdbc-3.50.3.0.jar" Honeypot.java
+    |
+    ¦— run if no .class files are made yet.
+    |
+    ↳ optional if classes already made. Do use if any changes made.
+
+2. java -cp ".;sqlite-jdbc-3.50.3.0.jar" Honeypot
+    ↳ main run command.
