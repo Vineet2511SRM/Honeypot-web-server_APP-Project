@@ -10,6 +10,13 @@ public class Honeypot {
         Configuration config = new Configuration("config.properties");
         JsonLogger.setLogFile(config.getLogFile());
 
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            System.err.println("SQLite JDBC driver not found!");
+            return;
+        }
+
         ExecutorService executor = Executors.newFixedThreadPool(config.getThreadPoolSize());
         
         System.out.println("Honeypot Web Server starting on port " + config.getServerPort());
