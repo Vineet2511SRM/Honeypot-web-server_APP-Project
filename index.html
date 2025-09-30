@@ -18,7 +18,7 @@
       background: #ffffff;
     }
 
-    /* Added announcement banner */
+    /* Announcement banner */
     .announcement {
       background: #1a1a1a;
       color: #ffffff;
@@ -34,7 +34,7 @@
       margin-left: 0.5rem;
     }
 
-    /* Improved header with better spacing and styling */
+    /* Header */
     header {
       background: #ffffff;
       border-bottom: 1px solid #e5e5e5;
@@ -67,6 +67,7 @@
       color: white;
       font-weight: bold;
       font-size: 1.2rem;
+      user-select: none;
     }
 
     nav {
@@ -102,7 +103,115 @@
       transform: translateY(-1px);
     }
 
-    /* Redesigned hero section with split layout */
+    /* Admin panel using :target */
+    .admin-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .admin-overlay:target {
+      display: flex;
+    }
+
+    .admin-panel {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 3rem;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .admin-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      text-decoration: none;
+      font-size: 1.5rem;
+      color: #525252;
+    }
+
+    .admin-panel h2 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: #1a1a1a;
+    }
+
+    .admin-panel .subtitle {
+      color: #525252;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .admin-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1a1a1a;
+    }
+
+    .form-group input {
+      padding: 0.875rem 1rem;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #f97316;
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    }
+
+    .admin-submit {
+      background: #f97316;
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .admin-submit:hover {
+      background: #ea6a0a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    .admin-footer {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e5e5;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #525252;
+    }
+
+    /* Hero section */
     .hero {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -167,7 +276,6 @@
       border-color: #1a1a1a;
     }
 
-    /* Added visual hero illustration */
     .hero-visual {
       background: linear-gradient(135deg, #f97316 0%, #ea6a0a 100%);
       border-radius: 16px;
@@ -200,7 +308,7 @@
       color: #16a34a;
     }
 
-    /* Added stats section */
+    /* Stats section */
     .stats {
       background: #fafafa;
       padding: 3rem;
@@ -227,7 +335,7 @@
       font-size: 0.95rem;
     }
 
-    /* Improved courses section */
+    /* Courses section */
     .container {
       max-width: 1400px;
       margin: 0 auto;
@@ -257,7 +365,6 @@
       gap: 2rem;
     }
 
-    /* Enhanced course cards with better styling */
     .course-card {
       background: white;
       padding: 2.5rem;
@@ -317,20 +424,9 @@
       color: #525252;
     }
 
-    .level.beginner {
-      background: #dcfce7;
-      color: #16a34a;
-    }
-
-    .level.intermediate {
-      background: #fef3c7;
-      color: #d97706;
-    }
-
-    .level.advanced {
-      background: #fee2e2;
-      color: #dc2626;
-    }
+    .level.beginner { background: #dcfce7; color: #16a34a; }
+    .level.intermediate { background: #fef3c7; color: #d97706; }
+    .level.advanced { background: #fee2e2; color: #dc2626; }
 
     .course-link {
       color: #f97316;
@@ -343,51 +439,29 @@
       text-decoration: underline;
     }
 
-    /* Added responsive design */
+    /* Responsive */
     @media (max-width: 968px) {
-      .hero {
-        grid-template-columns: 1fr;
-        padding: 3rem 2rem;
-      }
-
-      .hero-content h1 {
-        font-size: 2.5rem;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      header {
-        padding: 1rem 2rem;
-      }
-
-      nav {
-        display: none;
-      }
+      .hero { grid-template-columns: 1fr; padding: 3rem 2rem; }
+      .hero-content h1 { font-size: 2.5rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      nav { display: none; }
     }
 
     @media (max-width: 640px) {
-      .hero-content h1 {
-        font-size: 2rem;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
+      .hero-content h1 { font-size: 2rem; }
+      .cta-buttons { flex-direction: column; }
+      .stats { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <!-- Announcement -->
   <div class="announcement">
     🎓 New Spring Course: Advanced Java Patterns starts May 15th!
     <a href="#">Enroll now</a>
   </div>
 
+  <!-- Header -->
   <header>
     <div class="logo">
       <div class="logo-icon">J</div>
@@ -398,10 +472,32 @@
       <a href="#resources">Resources</a>
       <a href="#community">Community</a>
       <a href="#pricing">Pricing</a>
-      <a href="/login" class="admin-btn">Admin Panel</a>
+      <a href="#admin" class="admin-btn">Admin Panel</a>
     </nav>
   </header>
 
+  <!-- Admin Modal -->
+  <div id="admin" class="admin-overlay">
+    <div class="admin-panel">
+      <a href="#" class="admin-close">&times;</a>
+      <h2>Admin Login</h2>
+      <div class="subtitle">Enter your credentials to access the admin panel</div>
+      <form class="admin-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter password">
+        </div>
+        <button type="submit" class="admin-submit">Login</button>
+      </form>
+      <div class="admin-footer">© 2025 JavaMaster. All rights reserved.</div>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Master Java programming from scratch</h1>
@@ -422,6 +518,7 @@
     </div>
   </section>
 
+  <!-- Stats -->
   <section class="stats">
     <div class="stat-item">
       <div class="stat-number">50K+</div>
@@ -441,6 +538,7 @@
     </div>
   </section>
 
+  <!-- Courses -->
   <div class="container" id="courses">
     <div class="section-header">
       <h2>Popular Learning Paths</h2>
@@ -470,17 +568,10 @@
       <div class="course-card">
         <div class="course-icon">⚡</div>
         <h3>Data Structures & Algorithms</h3>
-        <p>Learn essential data structures and algorithms with Java implementations. Prepare for technical interviews and competitive programming.</p>
-        <div class="course-meta">
-          <span class="level intermediate">Intermediate</span>
-          <a href="#" class="course-link">Learn more →</a>
-        </div>
-      </div>
-
-      <div class="course-card">
-        <div class="course-icon">🚀</div>
-        <h3>Advanced Java Development</h3>
-        <p>Explore advanced topics: multithreading, streams, lambda expressions, design patterns, and modern Java features for production applications.</p>
+        <p>Learn essential data structures and algorithms with Java implementations. Prepare for technical interviews and competitive programming.</       <div class="course-card">
+        <div class="course-icon">⚡</div>
+        <h3>Data Structures & Algorithms</h3>
+        <p>Learn essential data structures and algorithms with Java implementations. Prepare for technical interviews, competitive programming, and real-world problem solving.</p>
         <div class="course-meta">
           <span class="level advanced">Advanced</span>
           <a href="#" class="course-link">Learn more →</a>
@@ -488,5 +579,37 @@
       </div>
     </div>
   </div>
+
+  <!-- Optional Resources Section -->
+  <div class="container" id="resources">
+    <div class="section-header">
+      <h2>Resources & Tools</h2>
+      <p>Get access to cheat sheets, practice problems, and Java development tools to accelerate your learning.</p>
+    </div>
+    <!-- You can add resource cards here -->
+  </div>
+
+  <!-- Community Section -->
+  <div class="container" id="community">
+    <div class="section-header">
+      <h2>Join Our Community</h2>
+      <p>Connect with thousands of Java learners worldwide. Share projects, ask questions, and participate in coding challenges.</p>
+    </div>
+    <!-- Community content can go here -->
+  </div>
+
+  <!-- Pricing Section -->
+  <div class="container" id="pricing">
+    <div class="section-header">
+      <h2>Pricing Plans</h2>
+      <p>Flexible subscription plans to fit your learning style and budget.</p>
+    </div>
+    <!-- Pricing cards or table can go here -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="container" style="text-align:center; padding:2rem 0; color:#525252; font-size:0.9rem;">
+    © 2025 JavaMaster. All rights reserved. Built with ❤️ for Java enthusiasts.
+  </footer>
 </body>
 </html>
