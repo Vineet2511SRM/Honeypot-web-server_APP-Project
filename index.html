@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaMaster - Learn Java Programming</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #ffffff;
+    }
+
+    /* Added announcement banner */
+    .announcement {
+      background: #1a1a1a;
+      color: #ffffff;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .announcement a {
+      color: #f97316;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    /* Improved header with better spacing and styling */
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 1.25rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: #f97316;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: #525252;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #1a1a1a;
+    }
+
+    .admin-btn {
+      background: #1a1a1a;
+      color: white;
+      padding: 0.65rem 1.5rem;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .admin-btn:hover {
+      background: #404040;
+      transform: translateY(-1px);
+    }
+
+    /* Redesigned hero section with split layout */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+      align-items: center;
+      gap: 4rem;
+      padding: 4rem 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: #1a1a1a;
+    }
+
+    .hero-content p {
+      font-size: 1.25rem;
+      color: #525252;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .btn-primary {
+      background: #f97316;
+      color: white;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #ea6a0a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #1a1a1a;
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      border: 2px solid #e5e5e5;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: #1a1a1a;
+    }
+
+    /* Added visual hero illustration */
+    .hero-visual {
+      background: linear-gradient(135deg, #f97316 0%, #ea6a0a 100%);
+      border-radius: 16px;
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .code-snippet {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 2rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #1a1a1a;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .code-snippet .keyword {
+      color: #f97316;
+      font-weight: bold;
+    }
+
+    .code-snippet .string {
+      color: #16a34a;
+    }
+
+    /* Added stats section */
+    .stats {
+      background: #fafafa;
+      padding: 3rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #f97316;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #525252;
+      font-size: 0.95rem;
+    }
+
+    /* Improved courses section */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 5rem 3rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1a1a1a;
+    }
+
+    .section-header p {
+      font-size: 1.1rem;
+      color: #525252;
+    }
+
+    .courses {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Enhanced course cards with better styling */
+    .course-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      border: 1px solid #e5e5e5;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      border-color: #f97316;
+    }
+
+    .course-icon {
+      width: 48px;
+      height: 48px;
+      background: #fff7ed;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .course-card h3 {
+      color: #1a1a1a;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .course-card p {
+      color: #525252;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .course-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .level {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: #fafafa;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #525252;
+    }
+
+    .level.beginner {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .level.intermediate {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .level.advanced {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .course-link {
+      color: #f97316;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .course-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Added responsive design */
+    @media (max-width: 968px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 3rem 2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      header {
+        padding: 1rem 2rem;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement">
+    🎓 New Spring Course: Advanced Java Patterns starts May 15th!
+    <a href="#">Enroll now</a>
+  </div>
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">J</div>
+      JavaMaster
+    </div>
+    <nav>
+      <a href="#courses">Courses</a>
+      <a href="#resources">Resources</a>
+      <a href="#community">Community</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/login" class="admin-btn">Admin Panel</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Master Java programming from scratch</h1>
+      <p>Learn Java with hands-on projects, real-world examples, and expert guidance. Build production-ready applications.</p>
+      <div class="cta-buttons">
+        <a href="#courses" class="btn-primary">Start Learning</a>
+        <a href="#demo" class="btn-secondary">Watch Demo</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="code-snippet">
+        <div><span class="keyword">public class</span> HelloWorld {</div>
+        <div>&nbsp;&nbsp;<span class="keyword">public static void</span> main(String[] args) {</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"Hello, Java!"</span>);</div>
+        <div>&nbsp;&nbsp;}</div>
+        <div>}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat-item">
+      <div class="stat-number">50K+</div>
+      <div class="stat-label">Active Students</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">200+</div>
+      <div class="stat-label">Video Lessons</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">95%</div>
+      <div class="stat-label">Success Rate</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">4.9/5</div>
+      <div class="stat-label">Student Rating</div>
+    </div>
+  </section>
+
+  <div class="container" id="courses">
+    <div class="section-header">
+      <h2>Popular Learning Paths</h2>
+      <p>Structured courses designed to take you from beginner to professional</p>
+    </div>
+    <div class="courses">
+      <div class="course-card">
+        <div class="course-icon">📚</div>
+        <h3>Java Fundamentals</h3>
+        <p>Master the basics of Java programming including variables, data types, control structures, and methods. Perfect for absolute beginners.</p>
+        <div class="course-meta">
+          <span class="level beginner">Beginner</span>
+          <a href="#" class="course-link">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon">🎯</div>
+        <h3>Object-Oriented Programming</h3>
+        <p>Deep dive into OOP concepts: classes, objects, inheritance, polymorphism, encapsulation, and abstraction with real-world projects.</p>
+        <div class="course-meta">
+          <span class="level intermediate">Intermediate</span>
+          <a href="#" class="course-link">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon">⚡</div>
+        <h3>Data Structures & Algorithms</h3>
+        <p>Learn essential data structures and algorithms with Java implementations. Prepare for technical interviews and competitive programming.</p>
+        <div class="course-meta">
+          <span class="level intermediate">Intermediate</span>
+          <a href="#" class="course-link">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="course-card">
+        <div class="course-icon">🚀</div>
+        <h3>Advanced Java Development</h3>
+        <p>Explore advanced topics: multithreading, streams, lambda expressions, design patterns, and modern Java features for production applications.</p>
+        <div class="course-meta">
+          <span class="level advanced">Advanced</span>
+          <a href="#" class="course-link">Learn more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
