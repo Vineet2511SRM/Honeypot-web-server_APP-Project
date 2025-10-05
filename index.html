@@ -87,128 +87,27 @@
       color: #1a1a1a;
     }
 
-    .admin-btn {
+    /* Admin Login Button */
+    .admin-login-btn {
       background: #1a1a1a;
       color: white;
       padding: 0.65rem 1.5rem;
       text-decoration: none;
       border-radius: 6px;
       font-weight: 600;
-      transition: all 0.2s;
       font-size: 0.95rem;
+      transition: all 0.2s;
+      cursor: pointer;
     }
 
-    .admin-btn:hover {
+    .admin-login-btn:hover {
       background: #404040;
       transform: translateY(-1px);
     }
 
-    /* Admin panel using :target */
-    .admin-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-    }
-
-    .admin-overlay:target {
-      display: flex;
-    }
-
-    .admin-panel {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 3rem;
-      max-width: 420px;
-      width: 90%;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      position: relative;
-    }
-
-    .admin-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      text-decoration: none;
-      font-size: 1.5rem;
-      color: #525252;
-    }
-
-    .admin-panel h2 {
-      font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-      color: #1a1a1a;
-    }
-
-    .admin-panel .subtitle {
-      color: #525252;
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
-    }
-
-    .admin-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #1a1a1a;
-    }
-
-    .form-group input {
-      padding: 0.875rem 1rem;
-      border: 1px solid #e5e5e5;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: inherit;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #f97316;
-      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
-    }
-
-    .admin-submit {
-      background: #f97316;
-      color: white;
-      padding: 1rem;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-top: 0.5rem;
-    }
-
-    .admin-submit:hover {
-      background: #ea6a0a;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-    }
-
-    .admin-footer {
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #e5e5e5;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #525252;
+    .admin-login-btn:active {
+      background: #f97316; /* Color change on click */
+      transform: translateY(1px);
     }
 
     /* Hero section */
@@ -472,30 +371,10 @@
       <a href="#resources">Resources</a>
       <a href="#community">Community</a>
       <a href="#pricing">Pricing</a>
-      <a href="#admin" class="admin-btn">Admin Panel</a>
+      <!-- Admin login button -->
+      <a href="#admin-login" class="admin-login-btn">Admin Login</a>
     </nav>
   </header>
-
-  <!-- Admin Modal -->
-  <div id="admin" class="admin-overlay">
-    <div class="admin-panel">
-      <a href="#" class="admin-close">&times;</a>
-      <h2>Admin Login</h2>
-      <div class="subtitle">Enter your credentials to access the admin panel</div>
-      <form class="admin-form">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Enter username">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Enter password">
-        </div>
-        <button type="submit" class="admin-submit">Login</button>
-      </form>
-      <div class="admin-footer">© 2025 JavaMaster. All rights reserved.</div>
-    </div>
-  </div>
 
   <!-- Hero Section -->
   <section class="hero">
@@ -568,9 +447,6 @@
       <div class="course-card">
         <div class="course-icon">⚡</div>
         <h3>Data Structures & Algorithms</h3>
-        <p>Learn essential data structures and algorithms with Java implementations. Prepare for technical interviews and competitive programming.</       <div class="course-card">
-        <div class="course-icon">⚡</div>
-        <h3>Data Structures & Algorithms</h3>
         <p>Learn essential data structures and algorithms with Java implementations. Prepare for technical interviews, competitive programming, and real-world problem solving.</p>
         <div class="course-meta">
           <span class="level advanced">Advanced</span>
@@ -580,13 +456,12 @@
     </div>
   </div>
 
-  <!-- Optional Resources Section -->
+  <!-- Resources Section -->
   <div class="container" id="resources">
     <div class="section-header">
       <h2>Resources & Tools</h2>
       <p>Get access to cheat sheets, practice problems, and Java development tools to accelerate your learning.</p>
     </div>
-    <!-- You can add resource cards here -->
   </div>
 
   <!-- Community Section -->
@@ -595,7 +470,6 @@
       <h2>Join Our Community</h2>
       <p>Connect with thousands of Java learners worldwide. Share projects, ask questions, and participate in coding challenges.</p>
     </div>
-    <!-- Community content can go here -->
   </div>
 
   <!-- Pricing Section -->
@@ -604,7 +478,6 @@
       <h2>Pricing Plans</h2>
       <p>Flexible subscription plans to fit your learning style and budget.</p>
     </div>
-    <!-- Pricing cards or table can go here -->
   </div>
 
   <!-- Footer -->
