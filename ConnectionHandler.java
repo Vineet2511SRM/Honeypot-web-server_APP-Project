@@ -49,11 +49,18 @@ public class ConnectionHandler implements Runnable {
 
             JsonLogger.log("HTTP_REQUEST", "Request received.", "clientIp", clientIp, "requestLine", requestLine);
 
-            // Handle POST requests (form submissions) differently from GET requests
-            if (requestLine.startsWith("POST")) {
+            // parse request method and path
+            String[] parts = requestLine.split(" ");
+            String method = parts.length > 0 ? parts[0] : "";
+            String path = parts.length > 1 ? parts[1] : "/";
+
+            // route GET /login to the login page, keep existing POST handling
+            if ("POST".equalsIgnoreCase(method)) {
                 handlePostRequest(in, out, clientIp);
+            } else if ("GET".equalsIgnoreCase(method) && "/login".equals(path)) {
+                HtmlResponder.serveLoginPage(out, config.getServerBanner(), "");
             } else {
-                HtmlResponder.serveLoginPage(out, config.getServerBanner(), null);
+                HtmlResponder.serveIndexPage(out, config.getServerBanner());
             }
 
         } catch (IOException e) {
@@ -89,7 +96,7 @@ public class ConnectionHandler implements Runnable {
                 "userAgent", userAgent, 
                 "username", username, 
                 "password", password);
-            HtmlResponder.serveFakeLogsPage(out, config.getServerBanner());
+            HtmlResponder.serveFakeLogsPage(out, config.getServerBanner(), username, "DBstuff.db");
             System.out.println("SQL Injection attempt detected from " + clientIp);
         } 
         else {
@@ -98,7 +105,7 @@ public class ConnectionHandler implements Runnable {
                     "clientIp", clientIp, 
                     "userAgent", userAgent, 
                     "username", username);
-                HtmlResponder.serveSuccessPage(out, config.getServerBanner(), username, "DBstuff.db");
+                HtmlResponder.serveSuccessPage(out, config.getServerBanner(), username);
             } else {
                 JsonLogger.log("LOGIN_ATTEMPT", "Login attempt failed.", 
                     "clientIp", clientIp, 
@@ -149,7 +156,7 @@ public class ConnectionHandler implements Runnable {
         String[] patterns = {
             "' OR '1'='1'", "'OR 1=1", "' OR 'x'='x'",
             "'--", "' #", "'; --", "';#",
-            "UNION SELECT", "DROP TABLE", "INSERT INTO", "SELECT * FROM"
+            "UNION SELECT", "DROP TABLE", "INSERT INTO", "SELECT * FROM", "SELECT", "UPDATE", "DELETE"
         };
 
         // Check for patterns in a case-insensitive way

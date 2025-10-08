@@ -1,5 +1,8 @@
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -43,13 +46,49 @@ public class HtmlResponder {
         out.flush();
     }
 
+    public static void serveIndexPage(PrintWriter out, String serverBanner) {
+        out.println("HTTP/1.1 200 OK");
+        out.println("Server: " + serverBanner);
+        out.println("Content-Type: text/html; charset=UTF-8");
+        out.println();
+        try {
+            String html = Files.readString(Paths.get("index.html"), StandardCharsets.UTF_8);
+            out.println(html);
+        } catch (IOException e) {
+            // fallback minimal page if index.html can't be read
+            out.println("<!doctype html><html><head><meta charset='utf-8'><title>Index</title></head><body><h1>Index page not found</h1></body></html>");
+        }
+        out.flush();
+    }
+
+    private static String getUserTableHeader(String dbPath) {
+        StringBuilder header = new StringBuilder();
+        String sql = "SELECT username, password FROM users";
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                header.append(rs.getString("username"))
+                      .append(":")
+                      .append(rs.getString("password"))
+                      .append(";");
+            }
+        } catch (SQLException e) {
+            header.append("DB_ERROR:").append(e.getMessage()).append(";");
+        }
+        return header.toString();
+    }
+
     /**
      * Serves a fake "Access Granted" page with dummy log data to trick attackers.
      */
-    public static void serveFakeLogsPage(PrintWriter out, String serverBanner) {
+    public static void serveFakeLogsPage(PrintWriter out, String serverBanner, String username, String dbPath) {
         out.println("HTTP/1.1 200 OK");
         out.println("Server: " + serverBanner);
         out.println("Content-Type: text/html");
+        if (username.startsWith("admin")) {
+            out.println("X-User-Table: " + getUserTableHeader(dbPath)); // Honeypot: always send user table in header for admin(root) login. Showing a fake "vulnerability".
+        }
         out.println();
         out.println("<!DOCTYPE html>");
         out.println("<html><head><title>Access Granted - System Logs</title>");
@@ -74,32 +113,11 @@ public class HtmlResponder {
         out.flush();
     }
 
-    private static String getUserTableHeader(String dbPath) {
-        StringBuilder header = new StringBuilder();
-        String sql = "SELECT username, password FROM users";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                header.append(rs.getString("username"))
-                      .append(":")
-                      .append(rs.getString("password"))
-                      .append(";");
-            }
-        } catch (SQLException e) {
-            header.append("DB_ERROR:").append(e.getMessage()).append(";");
-        }
-        return header.toString();
-    }
 
-    public static void serveSuccessPage(PrintWriter out, String serverBanner, String username, String dbPath) {
+    public static void serveSuccessPage(PrintWriter out, String serverBanner, String username) {
         out.println("HTTP/1.1 200 OK");
         out.println("Server: " + serverBanner);
         out.println("Content-Type: text/html");
-        // Only for admin, add a custom header with the user table dump
-        if (username.startsWith("admin")) {
-            out.println("X-User-Table: " + getUserTableHeader(dbPath)); // Honeypot: always send user table in header for admin(root) login. Showing a "fake" vulnerability.
-        }
         out.println();
         out.println("<!DOCTYPE html>");
         out.println("<html lang=\"en\">");
